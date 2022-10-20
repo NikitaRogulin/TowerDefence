@@ -1,32 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Monster : MonoBehaviour {
+public class Monster : MonoBehaviour
+{
 
-	public GameObject m_moveTarget;
-	public float m_speed = 0.1f;
-	public int m_maxHP = 30;
-	const float m_reachDistance = 0.3f;
+    [SerializeField, Range(0, 1)] private float m_speed;
+    [SerializeField, Range(1, 100)] private int m_hp;
+    private Transform m_moveTarget;
 
-	public int m_hp;
+    public void Init(Transform target)
+    {
+        m_moveTarget = target;
+    }
+    void Update()
+    {
+        if (m_moveTarget == null)
+            return;
 
-	void Start() {
-		m_hp = m_maxHP;
-	}
+        Move();
 
-	void Update () {
-		if (m_moveTarget == null)
-			return;
-		
-		if (Vector3.Distance (transform.position, m_moveTarget.transform.position) <= m_reachDistance) {
-			Destroy (gameObject);
-			return;
-		}
-
-		var translation = m_moveTarget.transform.position - transform.position;
-		if (translation.magnitude > m_speed) {
-			translation = translation.normalized * m_speed;
-		}
-		transform.Translate (translation);
-	}
+        if (IsDeath())
+        {
+            Death();
+        }
+    }
+    private void Move()
+    {
+        var distance = m_moveTarget.transform.position - transform.position;
+        var direction = distance.normalized;
+        var delta = direction * m_speed * Time.deltaTime;
+        MoveToTarget(delta);
+    }
+    private void Death()
+    {
+        Destroy(gameObject.transform);
+    }
+    private bool IsDeath()
+    {
+        return m_hp <= 0 || transform.position == m_moveTarget.position;
+    }
+    private void MoveToTarget(Vector3 vector)
+    {
+        MoveToTarget(vector.magnitude);
+    }
+    private void MoveToTarget(float distance)
+    {
+        transform.position = Vector3.MoveTowards(transform.position, m_moveTarget.position, distance);
+    }
 }
