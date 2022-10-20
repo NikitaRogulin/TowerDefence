@@ -1,30 +1,66 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
+using System.Collections.Generic;
 
-public class CannonTower : MonoBehaviour {
-	public float m_shootInterval = 0.5f;
-	public float m_range = 4f;
-	public GameObject m_projectilePrefab;
-	public Transform m_shootPoint;
+public class CannonTower : MonoBehaviour
+{
+    [SerializeField, Range(1, 10)] private float m_shootInterval/* = 0.5f*/;
+    [SerializeField, Range(1, 10)] private float m_range /*= 4f*/;
+    [SerializeField] private CannonProjectile m_projectilePrefab;
+    [SerializeField] private Transform m_shootPoint;
 
-	private float m_lastShotTime = -0.5f;
+    private Queue<Monster> m_queueEnemy;
+    private DateTime m_dateShootTime;
 
-	void Update () {
-		if (m_projectilePrefab == null || m_shootPoint == null)
-			return;
+    private void Awake()
+    {
+        m_queueEnemy = new Queue<Monster>();
+    }
+    void Update()
+    {
+        if (m_projectilePrefab == null || m_shootPoint == null)
+            return;
 
-		foreach (var monster in FindObjectsOfType<Monster>()) {
-			if (Vector3.Distance (transform.position, monster.transform.position) > m_range)
-				continue;
+        if(m_queueEnemy.Count != 0)
+        {
+            var enemy = m_queueEnemy.Peek();
+            LookAtMonster(enemy);
+            if (IsReloaded())
+            {
+                Shoot(enemy);
+            }
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.TryGetComponent<Monster>(out Monster monster))
+        {
+            m_queueEnemy.Enqueue(monster);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<Monster>(out Monster monster))
+        {
+            m_queueEnemy.Dequeue();
+        }
+    }
+    private void Shoot(Monster enemy)
+    {
+        //TO DO
+        //STRELAT PO MONSTRAM:)
+        Instantiate(m_projectilePrefab, m_shootPoint.position, Quaternion.identity);
+    }
+    private void LookAtMonster(Monster enemy)
+    {
 
-			if (m_lastShotTime + m_shootInterval > Time.time)
-				continue;
-
-			// shot
-			Instantiate(m_projectilePrefab, m_shootPoint.position, m_shootPoint.rotation);
-
-			m_lastShotTime = Time.time;
-		}
-
-	}
+    }
+    private bool IsReloaded()
+    {
+        if(m_shootInterval >= (DateTime.Now - m_dateShootTime).TotalSeconds)
+        {
+            return true;
+        }
+        return false;
+    }
 }
