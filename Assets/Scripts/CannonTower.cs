@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class CannonTower : Tower
 {
-    [SerializeField] private CannonProjectile m_projectilePrefab;
     [SerializeField] private float m_speedRotation;
+    [Header("Prefab")]
+    [SerializeField] private CannonProjectile m_projectilePrefab;
 
     void Update()
     {
@@ -26,7 +27,7 @@ public class CannonTower : Tower
     }
     private void ProtectQueue()
     {
-        while(m_queueEnemy.Count != 0)
+        while (m_queueEnemy.Count != 0)
         {
             var first = m_queueEnemy.Peek();
             if (first == null)
@@ -60,10 +61,10 @@ public class CannonTower : Tower
         var dy = delta.y;
         var Vm = monster.Speed;
         var Vp = projectile.Speed;
-        var angle = Mathf.PI*(Vector3.SignedAngle(monster.GetDirection(), delta,-Vector3.up))/180f;
+        var angle = Mathf.PI * (Vector3.SignedAngle(monster.GetDirection(), delta, -Vector3.up)) / 180f;
         var cos = Mathf.Cos(angle);
         var d = 4 * cos * cos * Vm * Vm * delta.sqrMagnitude - 4 * delta.sqrMagnitude * (Vm * Vm - Vp * Vp);
-        var t = (2 * cos * Vm * delta.magnitude - Mathf.Sqrt(d))/(2* (Vm * Vm - Vp * Vp));
+        var t = (2 * cos * Vm * delta.magnitude - Mathf.Sqrt(d)) / (2 * (Vm * Vm - Vp * Vp));
 
         var r = -delta / (t * Vp) + (Vm * monstrDirection) / Vp;
         return r;

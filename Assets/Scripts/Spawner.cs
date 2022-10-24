@@ -4,7 +4,7 @@ using System;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField, Range(4,10)] private float m_interval;
+    [SerializeField, Range(4, 10)] private float m_interval;
     [SerializeField] private Monster m_monsterPrefab;
     [SerializeField] private Transform target;
 

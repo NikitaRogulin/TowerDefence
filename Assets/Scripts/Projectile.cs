@@ -2,7 +2,8 @@
 
 public abstract class Projectile : MonoBehaviour
 {
-    [SerializeField,Range(10,100)] protected float m_speed;
+    [Header("Settings")]
+    [SerializeField, Range(10, 100)] protected float m_speed;
     [SerializeField] protected int m_damage;
     protected void Move()
     {

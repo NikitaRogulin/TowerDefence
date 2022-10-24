@@ -4,6 +4,7 @@ using System;
 
 public class SimpleTower : Tower
 {
+    [Header("Prefab")]
     [SerializeField] private GuidedProjectile m_projectilePrefab;
 
     void Update()
@@ -38,4 +39,4 @@ public class SimpleTower : Tower
                 return;
         }
     }
- }
+}

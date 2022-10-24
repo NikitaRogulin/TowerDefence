@@ -11,9 +11,9 @@ public class GuidedProjectile : Projectile
     }
     void Update()
     {
-        if(m_target != null)
+        if (m_target != null)
             Move();
-        if(m_target == null)
+        if (m_target == null)
         {
             Delete();
         }

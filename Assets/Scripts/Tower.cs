@@ -4,6 +4,7 @@ using System;
 
 public abstract class Tower : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField, Range(0, 10)] protected float m_shootInterval;
     [SerializeField] protected Transform m_shootPoint;
 

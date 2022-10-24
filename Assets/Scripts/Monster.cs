@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Monster : MonoBehaviour
 {
-
     [SerializeField, Range(20, 40)] private float m_speed;
     [SerializeField, Range(1, 100)] private int m_hp;
     private Transform m_moveTarget;
@@ -28,7 +27,7 @@ public class Monster : MonoBehaviour
     public void Hit(int damage)
     {
         m_hp -= damage;
-        if(IsDeath())
+        if (IsDeath())
         {
             Death();
         }
