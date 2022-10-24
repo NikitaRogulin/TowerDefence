@@ -14,7 +14,6 @@ public abstract class Tower : MonoBehaviour
     {
         m_queueEnemy = new Queue<Monster>();
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<Monster>(out Monster monster))

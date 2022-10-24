@@ -9,7 +9,6 @@ public class GuidedProjectile : Projectile
     {
         m_target = target;
     }
-
     void Update()
     {
         if(m_target != null)
@@ -19,7 +18,6 @@ public class GuidedProjectile : Projectile
             Delete();
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent<Monster>(out Monster monster))
@@ -28,7 +26,6 @@ public class GuidedProjectile : Projectile
             Delete();
         }
     }
-
     protected override Vector3 Direction()
     {
         var distance = m_target.transform.position - transform.position;
